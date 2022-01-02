@@ -2,7 +2,6 @@ package me.alientation.customgui.api;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,18 +12,18 @@ import me.alientation.customgui.api.listeners.GUIListener;
 
 public class CustomGUI {
 	
-	private final UUID id;
+	private String id;
 	
-	private final Inventory inventory;
-	private final String title;
-	private final int size;
-	private final InventoryType inventoryType;
+	private Inventory inventory;
+	private String title;
+	private int size;
+	private InventoryType inventoryType;
 	
-	private final GUIListener guiListener;
+	private GUIListener guiListener;
 	
-	private final Map<Integer, ItemSlot> slotsMap = new HashMap<>();
+	private Map<Integer, ItemSlot> slotsMap = new HashMap<>();
 	
-	public CustomGUI(String name, InventoryType type, UUID id, GUIListener guiListener) {
+	public CustomGUI(String name, InventoryType type, String id, GUIListener guiListener) {
 		this.id = id;
 		this.inventory = Bukkit.createInventory(null, type, name);
 		this.title = name;
@@ -33,7 +32,7 @@ public class CustomGUI {
 		this.guiListener = guiListener;
 	}
 	
-	public CustomGUI(String name, int size, UUID id, GUIListener guiListener) {
+	public CustomGUI(String name, int size, String id, GUIListener guiListener) {
 		this.id = id;
 		this.inventory = Bukkit.createInventory(null, size, name);
 		this.title = name;
@@ -46,6 +45,9 @@ public class CustomGUI {
 		player.openInventory(this.inventory);
 	}
 	
+	public boolean isOutOfBounds(int index) {
+		return false;
+	}
 
 	public ItemSlot getSlot(int index) {
 		return slotsMap.get(index);
@@ -53,13 +55,31 @@ public class CustomGUI {
 	
 	public void setSlot(int index, ItemSlot item) {
 		this.inventory.setItem(index, item.getItem());
+		
 		this.slotsMap.put(index, item);
 	}
 	
-	public UUID getID() { return this.id; }
-	public Inventory getInventory() { return this.inventory; }
-	public String getName() { return this.title; }
-	public int size() { return this.size; }
-	public InventoryType type() { return this.inventoryType; }
-	public GUIListener getGUIListener() { return this.guiListener; }
+	public String getID() {
+		return this.id;
+	}
+	
+	public Inventory getInventory() { 
+		return this.inventory;
+	}
+	
+	public String getName() {
+		return this.title;
+	}
+	
+	public int size() {
+		return this.size;
+	}
+	
+	public InventoryType type() {
+		return this.inventoryType;
+	}
+	
+	public GUIListener getGUIListener() {
+		return this.guiListener;
+	}
 }

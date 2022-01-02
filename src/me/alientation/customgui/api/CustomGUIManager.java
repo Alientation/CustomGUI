@@ -2,7 +2,6 @@ package me.alientation.customgui.api;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,7 +11,7 @@ public class CustomGUIManager {
 	/*
 	 * Stores CustomGUI mappings
 	 */
-	private Map<UUID,CustomGUI> GUI_MAP; 
+	private Map<String,CustomGUI> GUI_MAP; 
 	private Map<Inventory,CustomGUI> INVENTORY_MAP;
 	private JavaPlugin plugin;
 	
@@ -37,12 +36,20 @@ public class CustomGUIManager {
 	}
 	
 	
-	public void addInventory(CustomGUI inventory, UUID id) {
+	public void addInventory(CustomGUI inventory, String id) {
 		this.GUI_MAP.put(id, inventory);
 		this.INVENTORY_MAP.put(inventory.getInventory(), inventory);
 	}
 	
-	public JavaPlugin getPlugin() { return this.plugin; }
-	public CustomGUI getGUI(UUID id) { return this.GUI_MAP.get(id); }
-	public CustomGUI getGUI(Inventory inv) { return this.INVENTORY_MAP.get(inv); }
+	public JavaPlugin getPlugin() {
+		return this.plugin;
+	}
+	
+	public CustomGUI getGUI(String id) {
+		return this.GUI_MAP.get(id);
+	}
+	
+	public CustomGUI getGUI(Inventory inv) {
+		return this.INVENTORY_MAP.get(inv);
+	}
 }
