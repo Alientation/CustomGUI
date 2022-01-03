@@ -131,12 +131,12 @@ public class InventoryListener implements Listener {
 		CustomGUI gui = this.manager.getGUI(e.getSource());
 		
 		if (gui != null)
-			gui.getGUIListener().onInventoryItemLeft(gui,e);
+			gui.getGUIListener().onInventoryItemExit(gui,e);
 		
 		gui = this.manager.getGUI(e.getDestination());
 		
 		if (gui != null)
-			gui.getGUIListener().onInventoryItemEntered(gui, e);
+			gui.getGUIListener().onInventoryItemEnter(gui, e);
 		
 		gui = this.manager.getGUI(e.getInitiator());
 		

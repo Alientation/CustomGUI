@@ -20,6 +20,8 @@ import org.bukkit.event.inventory.TradeSelectEvent;
 import me.alientation.customgui.api.CustomGUI;
 
 public class GUIListener {
+	//use java reflection for ease
+	
 	
 	public void onPlayerInventoryClick(CustomGUI gui, InventoryClickEvent e) {
 		
@@ -61,11 +63,11 @@ public class GUIListener {
 		
 	}
 	
-	public void onInventoryItemLeft(CustomGUI gui, InventoryMoveItemEvent e) {
+	public void onInventoryItemExit(CustomGUI gui, InventoryMoveItemEvent e) {
 		
 	}
 	
-	public void onInventoryItemEntered(CustomGUI gui, InventoryMoveItemEvent e) {
+	public void onInventoryItemEnter(CustomGUI gui, InventoryMoveItemEvent e) {
 		
 	}
 	
