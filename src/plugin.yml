@@ -1,15 +1,9 @@
-main: me.alientation.customgui.Main
+main: me.alientation.customgui.CustomGUIPlugin
 name: CustomGUI
 version: '0.0.0'
 description: A simple and easy to use GUI API
 author: Alientation
-commands:
-  customgui:
-    description: CustomGUI Commands
-    permission: customgui
-    permission-message: You do not have permission!
-    usage: /<command> [wand]
 permissions:
   customgui:
     description: Allows CustomGUI Commands
-    default: op  
+    default: op

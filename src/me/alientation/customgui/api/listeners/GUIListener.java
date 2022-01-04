@@ -1,5 +1,13 @@
 package me.alientation.customgui.api.listeners;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.event.Event;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
@@ -17,11 +25,56 @@ import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.inventory.SmithItemEvent;
 import org.bukkit.event.inventory.TradeSelectEvent;
 
+
+import me.alientation.customgui.annotation.EventHandler;
+import me.alientation.customgui.annotation.ParameterFlagAnnotation;
 import me.alientation.customgui.api.CustomGUI;
+import me.alientation.customgui.exception.InvalidMethodException;
+import me.alientation.customgui.exception.UnflaggedParameterException;
 
 public class GUIListener {
-	//use java reflection for ease
 	
+	//reflection
+	
+	private Map<Class<?>,List<Method>> methodMap = new HashMap<>();
+	private Map<Method,List<ParameterFlagAnnotation>> methodParameters = new HashMap<>();
+	
+	public GUIListener() {
+		registerMethods();
+	}
+	
+	public void registerMethods() {
+		for (Method method : this.getClass().getMethods()) {
+			if (method.isAnnotationPresent(EventHandler.class)) {
+				boolean isEventParamFound = false;
+				for (Parameter parameter : method.getParameters()) {
+					if (parameter.isAnnotationPresent(ParameterFlagAnnotation.class)) {
+						List<ParameterFlagAnnotation> annotations = this.methodParameters.getOrDefault(method, new ArrayList<ParameterFlagAnnotation>());
+						annotations.add(parameter.getAnnotation(ParameterFlagAnnotation.class));
+						this.methodParameters.put(method,annotations);
+					} else if (parameter.getParameterizedType() instanceof Event) {
+						if (isEventParamFound)
+							throw new InvalidMethodException();
+						List<Method> methods = this.methodMap.getOrDefault(parameter.getType(), new ArrayList<Method>());
+						methods.add(method);
+						this.methodMap.put(parameter.getType(), methods);
+					} else {
+						throw new UnflaggedParameterException();
+					}
+				}
+			}
+		}
+	}
+	
+	public void callMethod(Event e) {
+		/*
+		 * TODO: Add a parameters builder so that specific parameters can be passed along at the user's discretion
+		 */
+	}
+	
+	public Map<Class<?>,List<Method>> getMethodMap() {
+		return this.methodMap;
+	}
 	
 	public void onPlayerInventoryClick(CustomGUI gui, InventoryClickEvent e) {
 		

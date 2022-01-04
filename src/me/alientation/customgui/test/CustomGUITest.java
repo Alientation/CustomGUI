@@ -1,5 +1,7 @@
 package me.alientation.customgui.test;
 
-public class CustomGUITest {
+import me.alientation.customgui.api.CustomGUIAPI;
+
+public class CustomGUITest extends CustomGUIAPI {
 
 }
